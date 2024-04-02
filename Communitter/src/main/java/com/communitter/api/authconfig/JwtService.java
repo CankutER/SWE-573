@@ -1,17 +1,13 @@
 package com.communitter.api.authconfig;
 
 import com.communitter.api.user.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.security.Key;
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,9 +16,12 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
+    public Logger logger = LoggerFactory.getLogger(JwtService.class);
     private final String SECRET="d2bedb814817fa4824c95665b4615260aa71e80b0051b389c229630e4bb57636";
     public String extractEmail(String token){
-        return extractClaim(token,Claims::getSubject);
+        String email= extractClaim(token,Claims::getSubject);
+        logger.info("EMAIL FROM TOKEN IS: "+email);
+        return email;
     }
 
     public String generateToken(User userDetails){
@@ -51,8 +50,9 @@ public class JwtService {
         return claimExtractor.apply(claims);
     }
     public boolean isTokenValid(String token, User userDetails){
+       logger.info("IS TOKEN SIGNED:" + Jwts.parserBuilder().setSigningKey(getSigninKey()).build().isSigned(token));
         String emailInToken = extractEmail(token);
-        return (emailInToken.equals(userDetails.getUsername()) && !isExpired(token));
+        return (emailInToken.equals(userDetails.getEmail()) && !isExpired(token));
 
     }
     public boolean isExpired(String token){

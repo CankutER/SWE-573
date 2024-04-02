@@ -31,11 +31,11 @@ public class Community {
     @Column(name = "is_public",nullable = false)
     private boolean isPublic;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
 
-    @OneToMany(mappedBy = "community")
+    @OneToMany(mappedBy = "community",fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
     private Set<Subscription> subscriptions;
 

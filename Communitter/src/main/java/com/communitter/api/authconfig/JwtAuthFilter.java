@@ -6,9 +6,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -19,8 +23,12 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private JwtService jwtService;
-    private UserDetailsService userDetailsService;
+
+    private final JwtService jwtService;
+
+    private final UserDetailsService userDetailsService;
+
+    public Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
 
 
     @Override
@@ -37,8 +45,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String userMail= jwtService.extractEmail(jwt);
         if(userMail!=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            User userDetails = (User) this.userDetailsService.loadUserByUsername(userMail);
-            if(jwtService.isTokenValid(jwt,userDetails)){
+            logger.info("Entered userDetails check");
+            UserDetails userDetails =(userDetailsService.loadUserByUsername(userMail));
+            logger.info("User Details are: "+userDetails.toString());
+            logger.info("Is Token Valid: "+jwtService.isTokenValid(jwt,(User) userDetails));
+            if(jwtService.isTokenValid(jwt,(User) userDetails)){
                 UsernamePasswordAuthenticationToken authToken= new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -46,6 +57,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 );
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                logger.info("Auth Object is: "+SecurityContextHolder.getContext().getAuthentication().toString());
             }
         }
         filterChain.doFilter(request,response);

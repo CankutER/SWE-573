@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Embeddable
 public class SubscriptionKey implements Serializable {
     private Long userId;
-    private Long roleId;
     private Long communityId;
 
 

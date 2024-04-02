@@ -22,13 +22,12 @@ public class Subscription {
     private User user;
 
     @ManyToOne
-    @MapsId("roleId")
-    @JoinColumn(name = "role_id")
-    private Role role;
-
-    @ManyToOne
     @MapsId("communityId")
     @JoinColumn(name = "community_id")
     private Community community;
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
 

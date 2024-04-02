@@ -1,0 +1,43 @@
+package com.communitter.api.auth;
+
+import com.communitter.api.authconfig.JwtService;
+import com.communitter.api.user.User;
+import com.communitter.api.user.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AuthenticationService {
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    public AuthenticationResponse register(RegisterRequest request){
+        User user= User.builder().username(request.getUsername()).password(passwordEncoder.encode(request.getPassword()))
+                .about(request.getAbout()).email(request.getEmail()).avatar(request.getAvatar()).header(request.getHeader()).build();
+
+        userRepository.save(user);
+
+        String token= jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder().token(token).build();
+
+    }
+
+
+    public AuthenticationResponse authenticate(AuthenticationRequest request){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+        User user =userRepository.findByEmail(request.getEmail()).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        return AuthenticationResponse.builder().token(jwtService.generateToken(user)).build();
+
+    }
+
+
+
+}

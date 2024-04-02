@@ -4,6 +4,7 @@ import com.communitter.api.community.Community;
 import com.communitter.api.community.Subscription;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -30,9 +32,9 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
     generator = "user_sequence")
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String username;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String email;
     @Column(nullable = false)
     private String password;
@@ -42,13 +44,13 @@ public class User implements UserDetails {
     private String header;
     @Column(nullable = true)
     private String avatar;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     private Set<Subscription> subscriptions;
 
-    @OneToOne(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator",fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
-    private Community community;
+    private Set<Community> community;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
