@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @PreAuthorize("@authorizer.authorizerForUser(#root,#id)")
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserInfo(@P ("id") @PathVariable Long id){
         return ResponseEntity.ok(userService.getUserInfo(id));

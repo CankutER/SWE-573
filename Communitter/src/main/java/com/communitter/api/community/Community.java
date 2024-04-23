@@ -1,10 +1,13 @@
 package com.communitter.api.community;
 
+import com.communitter.api.templates.DataField;
+import com.communitter.api.templates.Template;
 import com.communitter.api.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Cascade;
 
 import java.util.Set;
@@ -33,10 +36,21 @@ public class Community {
 
     @ManyToOne
     @JoinColumn(name = "creator_id")
+    @JsonIgnore
     private User creator;
 
     @OneToMany(mappedBy = "community",fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @JsonManagedReference("community-subs")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Set<Subscription> subscriptions;
+
+    @OneToMany(mappedBy = "community",fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
+    @JsonManagedReference("community-templates")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Template> templates;
 
 }
