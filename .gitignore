@@ -1,3 +1,4 @@
 ./**/.DS_Store
-./Communitter/pgdata
-./Communitter/pgdata/**
+Communitter/pgdata
+Communitter/pgdata/**
+.DS_Store
