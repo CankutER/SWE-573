@@ -21,15 +21,15 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     @Transactional
-    public AuthenticationResponse register(UserRequest request){
+    public RegisterResponse register(UserRequest request){
         User user= User.builder().username(request.getUsername()).password(passwordEncoder.encode(request.getPassword()))
                 .about(request.getAbout()).email(request.getEmail()).avatar(request.getAvatar()).header(request.getHeader()).build();
 
-        userRepository.save(user);
+        User createdUser=userRepository.save(user);
 
         String token= jwtService.generateToken(user);
 
-        return AuthenticationResponse.builder().token(token).build();
+        return RegisterResponse.builder().token(token).message("User created with id: "+createdUser.getId().toString()).build();
 
     }
 
