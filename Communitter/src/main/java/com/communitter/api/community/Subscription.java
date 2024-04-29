@@ -32,7 +32,7 @@ public class Subscription {
     @EqualsAndHashCode.Exclude
     private Community community;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 }

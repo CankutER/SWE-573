@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SWE-573.iml" filepath="$PROJECT_DIR$/.idea/SWE-573.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Communitter/security.iml" filepath="$PROJECT_DIR$/Communitter/security.iml" />
     </modules>
   </component>
 </project>

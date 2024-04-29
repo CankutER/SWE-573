@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,9 @@ public class AuthenticationService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    public AuthenticationResponse register(RegisterRequest request){
+
+    @Transactional
+    public AuthenticationResponse register(UserRequest request){
         User user= User.builder().username(request.getUsername()).password(passwordEncoder.encode(request.getPassword()))
                 .about(request.getAbout()).email(request.getEmail()).avatar(request.getAvatar()).header(request.getHeader()).build();
 

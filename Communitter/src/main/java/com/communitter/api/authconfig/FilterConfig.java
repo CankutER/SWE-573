@@ -27,7 +27,7 @@ public class FilterConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry-> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/**","/v3","/v3/**","/swagger-ui","/swagger-ui/**").permitAll()
                         .anyRequest().authenticated());
         http.sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));

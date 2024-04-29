@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 public class CommunityService {
@@ -39,5 +41,14 @@ public class CommunityService {
         SubscriptionKey subsKey= new SubscriptionKey(subscriber.getId(), community.getId());
         Role userRole= roleRepository.findByName("user").orElseThrow();
         return subscriptionRepository.save(new Subscription(subsKey,subscriber,community,userRole));
+    }
+    @Transactional
+    public String unsubscribe(Long id){
+        User subscriber= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Community community = communityRepository.findById(id).orElseThrow();
+        SubscriptionKey subsKey= new SubscriptionKey(subscriber.getId(), community.getId());
+        Subscription currentSub=subscriptionRepository.findById(subsKey).orElseThrow(()->new NoSuchElementException("User already not subscribed"));
+        subscriptionRepository.delete(currentSub);
+        return "User unsubscribed";
     }
 }

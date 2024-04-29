@@ -24,4 +24,8 @@ public class CommunityController {
     public ResponseEntity<Subscription> subscribeToCommunity(@PathVariable Long id){
         return ResponseEntity.ok(communityService.subscribeToCommunity(id));
     }
+    @DeleteMapping("/unsubscribe/{id}")
+    public ResponseEntity<String> unsubscribeFromCommunity(@PathVariable Long id){
+        return ResponseEntity.ok(communityService.unsubscribe(id));
+    }
 }

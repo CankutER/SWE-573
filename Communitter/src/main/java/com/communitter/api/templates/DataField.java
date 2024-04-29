@@ -2,6 +2,8 @@ package com.communitter.api.templates;
 
 import com.communitter.api.user.Role;
 import com.communitter.api.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,10 +28,11 @@ public class DataField {
     private String name;
     @Column(nullable = false)
     private boolean isRequired;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "data_field_type_id")
     private DataFieldType dataFieldType;
     @ManyToOne
     @JoinColumn(name = "template_id")
+    @JsonBackReference("template-datafields")
     private Template template;
 }

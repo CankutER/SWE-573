@@ -2,7 +2,9 @@ package com.communitter.api.user;
 
 import com.communitter.api.community.Community;
 import com.communitter.api.community.Subscription;
+import com.communitter.api.post.Post;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,12 +47,28 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private String avatar;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     @JsonManagedReference("user-subs")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Subscription> subscriptions;
+
+    @OneToMany(mappedBy = "creator",fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
+    @JsonManagedReference("community-creator")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnore
+    private Set<Community> createdCommunities;
+
+    @OneToMany(mappedBy = "author",fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
+    @JsonManagedReference("user-subs")
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Post> posts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

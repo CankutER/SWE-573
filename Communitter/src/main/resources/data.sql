@@ -6,6 +6,7 @@ INSERT INTO roles (id,name) VALUES
 
 INSERT INTO data_field_type (id,type) VALUES
     (1,'string'),
-    (2,'date'),
-    (3,'image'),
-    (4,'geolocation');
+    (2,'number'),
+    (3,'date'),
+    (4,'image'),
+    (5,'geolocation');

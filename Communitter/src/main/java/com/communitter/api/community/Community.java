@@ -1,10 +1,12 @@
 package com.communitter.api.community;
 
+import com.communitter.api.post.Post;
 import com.communitter.api.templates.DataField;
 import com.communitter.api.templates.Template;
 import com.communitter.api.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,7 +29,7 @@ public class Community {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "community_sequence")
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String name;
     private String about;
 
@@ -36,11 +38,12 @@ public class Community {
 
     @ManyToOne
     @JoinColumn(name = "creator_id")
+    @JsonBackReference("community-creator")
     @JsonIgnore
     private User creator;
 
     @OneToMany(mappedBy = "community",fetch = FetchType.EAGER)
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     @JsonManagedReference("community-subs")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
@@ -52,5 +55,13 @@ public class Community {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Template> templates;
+
+    @OneToMany(mappedBy = "community",fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
+    @JsonManagedReference("community-posts")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JsonIgnoreProperties({"community"})
+    private Set<Post> posts;
 
 }

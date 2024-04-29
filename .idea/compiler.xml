@@ -7,12 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="security" />
+        <module name="Communitter" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="security" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Communitter" options="-parameters" />
       <module name="security" options="-parameters" />
     </option>
   </component>
