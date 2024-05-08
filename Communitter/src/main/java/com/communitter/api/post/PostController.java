@@ -8,6 +8,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/posts")
 @RequiredArgsConstructor
 public class PostController {

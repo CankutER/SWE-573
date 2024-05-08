@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,17 +34,25 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
     generator = "user_sequence")
     private Long id;
+
     @Column(nullable = false,unique = true)
+    @Size(min = 1)
     private String username;
+
     @Column(nullable = false,unique = true)
     private String email;
+
     @JsonIgnore
     @Column(nullable = false)
+    @Size(min=8)
     private String password;
+
     @Column(nullable = true)
     private String about;
+
     @Column(nullable = true)
     private String header;
+
     @Column(nullable = true)
     private String avatar;
 

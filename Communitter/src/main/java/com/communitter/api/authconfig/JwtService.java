@@ -28,6 +28,7 @@ public class JwtService {
         return generateToken(new HashMap<>(),userDetails);
     }
     public String generateToken(Map<String,Object> moreClaims, User userDetails){
+        moreClaims.put("userId",userDetails.getId());
         return Jwts.builder().setClaims(moreClaims).setSubject(userDetails.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+ 86400000))

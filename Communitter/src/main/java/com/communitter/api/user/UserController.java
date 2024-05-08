@@ -8,6 +8,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
@@ -40,9 +41,10 @@ public class UserController {
     public ResponseEntity<User> updateUserPassword(@P ("id") @PathVariable Long id, UserRequest userInfo){
         return ResponseEntity.ok(userService.updateUserPassword(id, userInfo));
     }
-    @GetMapping()
-    public ResponseEntity<String> getUserInfo(){
+    @GetMapping("/healthcheck")
+    public ResponseEntity<String> healthCheck(){
         return ResponseEntity.ok("hello");
     }
+
 
 }
