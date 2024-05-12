@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { AuthService } from "../utilities/auth";
 import { useNavigate } from "react-router-dom";
+import { extractId } from "../utilities/jwt";
+import { tokenName } from "../utilities/config";
 export function LoginPage() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +38,8 @@ export function LoginPage() {
       if (!registerResult[0]) {
         setWarning(registerResult[1]);
       } else {
-        navigate("/user");
+        const id = extractId(localStorage.getItem(tokenName));
+        navigate("/user/" + id);
         console.log(registerResult);
       }
     } else {
@@ -45,7 +48,8 @@ export function LoginPage() {
         setWarning(loginResult[1]);
       } else {
         console.log(loginResult);
-        navigate("/user");
+        const id = extractId(localStorage.getItem(tokenName));
+        navigate("/user/" + id);
       }
     }
     setIsLoading(false);

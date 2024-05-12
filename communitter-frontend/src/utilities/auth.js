@@ -62,12 +62,12 @@ export class AuthService {
       });
       console.log(userResponse);
       if (!userResponse.ok) {
-        return false;
+        return { ok: false, userInfo: null };
       }
       const userInfo = await userResponse.json();
-      console.log(userInfo);
+      //console.log(userInfo);
 
-      return true;
+      return { ok: true, userInfo };
     } catch (err) {
       console.log(err.message);
     }

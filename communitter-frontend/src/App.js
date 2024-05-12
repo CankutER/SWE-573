@@ -5,6 +5,7 @@ import { CommunityPage } from "./pages/communityPage";
 import { UserPage } from "./pages/userPage";
 import { SharedLayout } from "./pages/shared";
 import { HomePage } from "./pages/homePage";
+import { CommunityCreationPage } from "./pages/createCommunity";
 
 function App() {
   return (
@@ -14,10 +15,14 @@ function App() {
           <Route index element={<LoginPage></LoginPage>}></Route>
           <Route path="/home" element={<HomePage></HomePage>}></Route>
           <Route
-            path="/community"
+            path="/community/create"
+            element={<CommunityCreationPage></CommunityCreationPage>}
+          ></Route>
+          <Route path="/user/:id" element={<UserPage></UserPage>}></Route>
+          <Route
+            path="/community/:id"
             element={<CommunityPage></CommunityPage>}
           ></Route>
-          <Route path="/user" element={<UserPage></UserPage>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
