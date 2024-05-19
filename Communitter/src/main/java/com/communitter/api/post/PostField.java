@@ -23,7 +23,7 @@ public class PostField {
             generator = "post_fields_sequence")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,columnDefinition = "TEXT")
     private String value;
 
     @ManyToOne

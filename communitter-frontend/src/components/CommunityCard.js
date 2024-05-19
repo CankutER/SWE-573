@@ -3,11 +3,13 @@ import { fetchWithOpts } from "../utilities/fetchWithOptions";
 import { url } from "../utilities/config";
 import { useDispatch } from "react-redux";
 import { setErrorMessage } from "../features/errorSlice";
+import { useNavigate } from "react-router-dom";
 
 export const CommunityCard = ({ subscription, userRole }) => {
   const [community, setCommunity] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     async function getCommunity() {
       try {
@@ -33,7 +35,13 @@ export const CommunityCard = ({ subscription, userRole }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, community?.id]);
   return (
-    <div className="card mb-3">
+    <div
+      className="card mb-3"
+      role="button"
+      onClick={() => {
+        navigate(`/community/${community.id}`);
+      }}
+    >
       <div className="card-body">
         {!isLoading && (
           <>

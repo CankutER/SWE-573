@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -50,5 +51,8 @@ public class CommunityService {
         Subscription currentSub=subscriptionRepository.findById(subsKey).orElseThrow(()->new NoSuchElementException("User already not subscribed"));
         subscriptionRepository.delete(currentSub);
         return "User unsubscribed";
+    }
+    public List<Community> getAllCommunities(){
+        return communityRepository.findAll();
     }
 }

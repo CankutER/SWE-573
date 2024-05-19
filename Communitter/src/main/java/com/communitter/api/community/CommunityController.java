@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/community")
@@ -28,5 +30,9 @@ public class CommunityController {
     @DeleteMapping("/unsubscribe/{id}")
     public ResponseEntity<String> unsubscribeFromCommunity(@PathVariable Long id){
         return ResponseEntity.ok(communityService.unsubscribe(id));
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Community>> getAllCommunities(){
+        return ResponseEntity.ok(communityService.getAllCommunities());
     }
 }

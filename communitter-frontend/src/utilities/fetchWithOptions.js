@@ -5,8 +5,12 @@ export async function fetchWithOpts(url, options) {
   options.headers.Authorization = "Bearer " + token;
   const response = await fetch(url, options);
   if (!response.ok) {
-    throw new Error("Request has failed");
+    const message = await response.text();
+    throw new Error(message);
   }
-  const data = await response.json();
+  const responseType = response.headers.get("Content-Type");
+  let data;
+  if (responseType.includes("text")) data = await response.text();
+  if (responseType.includes("json")) data = await response.json();
   return data;
 }

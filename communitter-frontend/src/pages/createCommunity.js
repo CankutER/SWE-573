@@ -3,12 +3,14 @@ import { setErrorMessage } from "../features/errorSlice";
 import { useDispatch } from "react-redux";
 import { fetchWithOpts } from "../utilities/fetchWithOptions";
 import { url } from "../utilities/config";
+import { useNavigate } from "react-router-dom";
 export function CommunityCreationPage() {
   const [communityState, setCommunityState] = useState({
     name: "",
     about: "",
     public: true,
   });
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -35,6 +37,7 @@ export function CommunityCreationPage() {
       });
       console.log(data);
       setIsLoading(false);
+      navigate("/home");
     } catch (err) {
       dispatch(setErrorMessage(err.message));
       setIsLoading(false);
