@@ -40,7 +40,7 @@ const GeolocationSearchField = ({
       <label htmlFor={searchField.name} className="form-label">
         {searchField.name} {`(Type: ${searchField.dataFieldType.type})`}
       </label>
-      <APIProvider apiKey="AIzaSyCMjJifNTIdI562qZqU4NTs5GfepPLWl4A">
+      <APIProvider apiKey={"AIzaSyCMjJifNTIdI562qZqU4NTs5GfepPLWl4A"}>
         <Map
           mapId={"Communitter Geolocation"}
           reuseMaps={true}

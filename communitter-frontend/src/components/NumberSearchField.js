@@ -5,13 +5,19 @@ const NumberSearchField = ({ searchField, index, onChange, postFilters }) => {
     console.log(index);
     console.log(postFilters);
     setFilter({ ...filter, min: e.target.value });
-    onChange(index, { ...postFilters[searchField.id], min: e.target.value });
+    onChange(index, {
+      ...postFilters[searchField.id],
+      min: e.target.value === "" ? 0 : e.target.value,
+    });
   };
   const handleMax = (index, e) => {
     console.log(index);
     console.log(postFilters);
     setFilter({ ...filter, max: e.target.value });
-    onChange(index, { ...postFilters[searchField.id], max: e.target.value });
+    onChange(index, {
+      ...postFilters[searchField.id],
+      max: e.target.value === "" ? 0 : e.target.value,
+    });
   };
 
   return (

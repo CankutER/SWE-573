@@ -3,7 +3,7 @@ services:
     container_name: postgres
     image: postgres
     ports:
-      - 3000:5432
+      - 3001:5432
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: communitter
@@ -24,4 +24,13 @@ services:
       db_password: password
     depends_on:
       - db
+    restart: always
+
+  frontend:
+    container_name: frontend
+    image: communitter-frontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
     restart: always

@@ -9,7 +9,7 @@ const GeolocationCardField = ({ value, dataField }) => {
   };
   return (
     <>
-      <APIProvider apiKey="AIzaSyCMjJifNTIdI562qZqU4NTs5GfepPLWl4A">
+      <APIProvider apiKey={"AIzaSyCMjJifNTIdI562qZqU4NTs5GfepPLWl4A"}>
         <CardText className="d-flex">
           <div>{dataField.name}:</div>
           <Map

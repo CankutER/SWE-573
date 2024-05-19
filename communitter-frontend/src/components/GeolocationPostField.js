@@ -21,7 +21,7 @@ const GeolocationPostField = ({ postField, index, onChange }) => {
         {(postField.dataField.required && "*") + postField.dataField.name}{" "}
         {`(Type: ${postField.dataField.dataFieldType.type})`}
       </label>
-      <APIProvider apiKey="AIzaSyCMjJifNTIdI562qZqU4NTs5GfepPLWl4A">
+      <APIProvider apiKey={"AIzaSyCMjJifNTIdI562qZqU4NTs5GfepPLWl4A"}>
         <Map
           mapId={"Communitter Geolocation"}
           reuseMaps={true}

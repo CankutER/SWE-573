@@ -1,9 +1,7 @@
 export function FilterPost(post, postFilters) {
   let filterPass = true;
-  console.log(post);
+
   post.postFields.forEach((postField) => {
-    console.log(postField);
-    console.log(postFilters[postField.dataField.id]);
     switch (postField.dataField.dataFieldType.type) {
       case "string":
         filterPass = filterString(
@@ -12,6 +10,8 @@ export function FilterPost(post, postFilters) {
         );
         break;
       case "number":
+        console.log(postField);
+        console.log(postFilters[postField.dataField.id]);
         filterPass = filterNumber(
           postField,
           postFilters[postField.dataField.id]
