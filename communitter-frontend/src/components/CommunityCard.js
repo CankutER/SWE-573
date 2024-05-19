@@ -48,7 +48,6 @@ export const CommunityCard = ({ subscription, userRole }) => {
             <h5 className="card-title">{community.name}</h5>
             <p className="card-text">{community.about}</p>
             <div className="d-flex justify-content-between align-items-center">
-              <small className="text-muted">ID: {community.id}</small>
               <span className="badge bg-primary">{userRole}</span>
             </div>
           </>

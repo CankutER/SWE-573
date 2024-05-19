@@ -36,7 +36,7 @@ const MakePostModal = ({ templates, isOpen, setIsOpen }) => {
       return;
     }
     const selectedName = event.target.value;
-    const template = templates.find((t) => t.name === selectedName); // Find selected template by name
+    const template = templates.find((t) => t.name === selectedName);
     setSelectedTemplate(template);
     const initFields = template.dataFields.map((field) => {
       return { value: "", dataField: { ...field } };
@@ -47,7 +47,7 @@ const MakePostModal = ({ templates, isOpen, setIsOpen }) => {
   const handlePostChange = (index, value) => {
     let updatedPostFields = [...postFields];
     updatedPostFields[index].value = value;
-    setPostFields(updatedPostFields); // Update specific post field value
+    setPostFields(updatedPostFields);
   };
 
   const handleCreatePost = async () => {

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +42,8 @@ public class CommunityService {
         Community community = communityRepository.findById(id).orElseThrow();
         SubscriptionKey subsKey= new SubscriptionKey(subscriber.getId(), community.getId());
         Role userRole= roleRepository.findByName("user").orElseThrow();
+        Optional<Subscription> currentSub=subscriptionRepository.findById(subsKey);
+        if(currentSub.isPresent()) throw new RuntimeException("User already subscribed");
         return subscriptionRepository.save(new Subscription(subsKey,subscriber,community,userRole));
     }
     @Transactional
@@ -49,6 +52,7 @@ public class CommunityService {
         Community community = communityRepository.findById(id).orElseThrow();
         SubscriptionKey subsKey= new SubscriptionKey(subscriber.getId(), community.getId());
         Subscription currentSub=subscriptionRepository.findById(subsKey).orElseThrow(()->new NoSuchElementException("User already not subscribed"));
+        if(currentSub.getRole().getName().equals("creator")) throw new RuntimeException("Creator cannot leave the community");
         subscriptionRepository.delete(currentSub);
         return "User unsubscribed";
     }

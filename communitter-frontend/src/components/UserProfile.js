@@ -15,7 +15,6 @@ export const UserProfile = ({ shownUser }) => {
               <h2>{shownUser.username}</h2>
             </div>
             <ul className="list-group list-group-flush">
-              <li className="list-group-item">ID: {shownUser.id}</li>
               <li className="list-group-item">Email: {shownUser.email}</li>
               <li className="list-group-item">Header: {shownUser.header}</li>
               <li className="list-group-item">About: {shownUser.about}</li>

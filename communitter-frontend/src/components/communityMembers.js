@@ -8,7 +8,6 @@ export const Members = ({ members }) => {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Username</th>
               <th scope="col">Role</th>
             </tr>

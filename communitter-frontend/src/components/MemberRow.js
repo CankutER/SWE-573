@@ -42,7 +42,6 @@ export const MemberRow = ({ subscription, userRole }) => {
           navigate(`/user/${member.id}`);
         }}
       >
-        <td>{member.id}</td>
         <td>{member.username}</td>
         <td>{userRole}</td>
       </tr>

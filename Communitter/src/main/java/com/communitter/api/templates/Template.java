@@ -28,7 +28,7 @@ public class Template {
             generator = "template_sequence")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String name;
 
     @OneToMany(mappedBy = "template",fetch = FetchType.EAGER)

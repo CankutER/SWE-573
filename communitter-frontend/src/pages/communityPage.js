@@ -9,18 +9,18 @@ import { setVisitedCommunity } from "../features/communitySlice";
 import { setErrorMessage } from "../features/errorSlice";
 import { TemplateModal } from "../components/templateModal";
 import MakePostModal from "../components/postModal";
+import AdvancedSearchModal from "../components/AdvancedSearch";
 export const CommunityPage = () => {
   const community = useSelector((state) => state.community.visitedCommunity);
+  const [posts, setPosts] = useState(community.posts);
+  console.log(posts);
   const loggedInUser = useSelector((state) => state.user.loggedInUser);
   console.log(community);
-  const [isSubscribed, setIsSubscribed] = useState(
-    community.subscriptions.some(
-      (subscription) => subscription.id.userId == loggedInUser.id
-    )
-  );
+  const [isSubscribed, setIsSubscribed] = useState(false);
   console.log(isSubscribed);
   const [subsButton, setSubsButton] = useState(true);
   const [isTemplateOpen, setIsTemplateOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isPostOpen, setIsPostOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
@@ -62,6 +62,12 @@ export const CommunityPage = () => {
           }
         );
         dispatch(setVisitedCommunity(visitedCommunity));
+        setIsSubscribed(
+          community.subscriptions.some(
+            (subscription) => subscription.id.userId == loggedInUser.id
+          )
+        );
+        setPosts(visitedCommunity.posts);
         setIsLoading(false);
       } catch (err) {
         dispatch(
@@ -135,8 +141,23 @@ export const CommunityPage = () => {
             </div>
           </div>
         </div>
-        <Posts posts={community.posts} />{" "}
-        <Members members={community.subscriptions} />
+        <button onClick={() => setIsFilterOpen(true)} className="btn-secondary">
+          Filter Posts
+        </button>
+        <button
+          onClick={() => setPosts(community.posts)}
+          className="btn-secondary mx-3"
+        >
+          Reset Filters
+        </button>
+        <AdvancedSearchModal
+          posts={posts}
+          setPosts={setPosts}
+          isOpen={isFilterOpen}
+          setIsOpen={setIsFilterOpen}
+          templates={community.templates}
+        ></AdvancedSearchModal>
+        <Posts posts={posts} /> <Members members={community.subscriptions} />
         <TemplateModal
           isOpen={isTemplateOpen}
           setIsOpen={setIsTemplateOpen}
