@@ -1,7 +1,7 @@
 const DatePostField = ({ postField, index, onChange }) => (
   <>
     <label htmlFor={postField.dataField.name} className="form-label">
-      {(postField.dataField.required && "*") + postField.dataField.name}{" "}
+      {(postField.dataField.required ? "*" : "") + postField.dataField.name}{" "}
       {`(Type: ${postField.dataField.dataFieldType.type})`}
     </label>
     <input
