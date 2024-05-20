@@ -28,7 +28,9 @@ services:
 
   frontend:
     container_name: frontend
-    image: communitter-frontend
+    build:
+      dockerfile: ./../communitter-frontend/Frontend.Dockerfile
+      context: ./../communitter-frontend
     ports:
       - 3000:3000
     depends_on:
