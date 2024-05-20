@@ -17,7 +17,6 @@ export const CommunityPage = () => {
   const loggedInUser = useSelector((state) => state.user.loggedInUser);
   console.log(community);
   const [isSubscribed, setIsSubscribed] = useState(false);
-  console.log(isSubscribed);
   const [subsButton, setSubsButton] = useState(true);
   const [isTemplateOpen, setIsTemplateOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);

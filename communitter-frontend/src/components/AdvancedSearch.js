@@ -81,17 +81,19 @@ const AdvancedSearchModal = ({
     setPostFilters((postFilters) => {
       let updatedPostFilters = { ...postFilters };
       updatedPostFilters[index] = value;
-      console.log(updatedPostFilters);
       return updatedPostFilters;
     });
   };
 
-  const handleFiltering = async () => {
+  const handleFiltering = () => {
     const templatePosts = community.posts.filter(
       (post) => post.template.id == selectedTemplate.id
     );
-    console.log(templatePosts);
-    setPosts(templatePosts.filter((post) => FilterPost(post, postFilters)));
+    const filteredPosts = templatePosts.filter((post) => {
+      let result = FilterPost(post, postFilters);
+      return result;
+    });
+    setPosts(filteredPosts);
     handleClose();
   };
 

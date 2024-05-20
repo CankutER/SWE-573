@@ -2,6 +2,7 @@ export function FilterPost(post, postFilters) {
   let filterPass = true;
 
   post.postFields.forEach((postField) => {
+    if (!filterPass) return;
     switch (postField.dataField.dataFieldType.type) {
       case "string":
         filterPass = filterString(
@@ -10,8 +11,6 @@ export function FilterPost(post, postFilters) {
         );
         break;
       case "number":
-        console.log(postField);
-        console.log(postFilters[postField.dataField.id]);
         filterPass = filterNumber(
           postField,
           postFilters[postField.dataField.id]
@@ -33,7 +32,7 @@ export function FilterPost(post, postFilters) {
         console.log(
           `Unknown data postField type: ${postField.dataField.dataFieldType.type}`
         );
-        filterPass = false;
+        return false;
     }
   });
   return filterPass;
@@ -43,24 +42,29 @@ function filterNumber(postField, filter) {
   if (Number(filter.max) === 0 && Number(filter.min) === 0) return true;
   return (
     Number(postField.value) >= Number(filter.min) &&
-    Number(postField.value) <= Number(filter.max)
+    Number(postField.value) <=
+      (Number(filter.max) === 0 ? Infinity : Number(filter.max))
   );
 }
 
 function filterDate(postField, filter) {
-  if (Number(filter.start) === 0 && Number(filter.end) === 0) return true;
-  if (Number(filter.start) === 0)
-    return Date(postField.value) <= Date(filter.end);
-  if (Number(filter.end) === 0)
-    return Date(postField.value) >= Date(filter.start);
+  if (Number(filter.start) == 0 && Number(filter.end) == 0) return true;
+  if (Number(filter.start) == 0)
+    return (
+      new Date(postField.value).getTime() <= new Date(filter.end).getTime()
+    );
+  if (Number(filter.end) == 0)
+    return (
+      new Date(postField.value).getTime() >= new Date(filter.start).getTime()
+    );
   return (
-    Date(postField.value) <= Date(filter.end) &&
-    Date(postField.value) >= Date(filter.start)
+    new Date(postField.value).getTime() <= new Date(filter.end).getTime() &&
+    new Date(postField.value).getTime() >= new Date(filter.start).getTime()
   );
 }
 function filterString(postField, filter) {
   if (filter.value === "") return true;
-  return postField.value.includes(filter.value);
+  return postField.value.toLowerCase().includes(filter.value.toLowerCase());
 }
 function filterLocation(postField, filter) {
   console.log(filter);
